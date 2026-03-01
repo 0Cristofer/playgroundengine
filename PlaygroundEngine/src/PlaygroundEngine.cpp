@@ -1,11 +1,27 @@
 #include "PlaygroundEngine.h"
 
 #include <iostream>
+#include <ostream>
+
+#include "World.h"
 
 namespace PlaygroundEngine
 {
-    void Engine::Start()
+    Engine::Engine()
     {
-        std::cout << "Playground Engine" << std::endl;
-    }   
+        std::cout<<"Creating engine"<< '\n';
+        
+        _currentWorld = std::make_unique<World>();
+    }
+
+    World* Engine::GetWorld()
+    {
+        return _currentWorld.get();
+    }
+
+    void Engine::Run()
+    {
+        std::cout<<"Running Engine"<< '\n';
+        _currentWorld->Run();
+    }
 }
