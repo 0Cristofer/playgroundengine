@@ -1,8 +1,9 @@
 #pragma once
 
+#include <cassert>
 #include <iostream>
 #include <memory>
-#include <vector>
+#include <unordered_map>
 
 #include "Component/ComponentBase.h"
 
@@ -10,6 +11,8 @@ namespace PlaygroundEngine
 {
     class GameObject
     {
+        using ComponentId = int;
+        
     public:
         void Update();
         
@@ -17,16 +20,45 @@ namespace PlaygroundEngine
         requires(std::is_base_of_v<ComponentBase, T>)
         T* AddComponent(Args&&... args)
         {
-            auto component = std::make_unique<T>(std::forward<Args>(args)...);
-            auto componentPtr = component.get();
-            _components.push_back(std::move(component));
+            const ComponentId componentId = GetComponentId<T>();
             
-            std::cout<<"Component added, total Components: "<< _components.size() << '\n';
+            auto [it, added] = _components.try_emplace(componentId, std::make_unique<T>(std::forward<Args>(args)...));
+            assert(added && "Added already existing component");
             
-            return componentPtr;
+            return static_cast<T*>(it->second.get());
+        }
+        
+        template <typename T>
+        requires(std::is_base_of_v<ComponentBase, T>)
+        [[nodiscard]] T* GetComponent() const
+        {
+            const ComponentId componentId = GetComponentId<T>();
+            
+            const auto it = _components.find(componentId);
+            assert(it != _components.end() && "GameObject::GetComponent: component not found");
+            
+            return static_cast<T*>(it->second.get());
+        }
+        
+        template <typename T>
+        requires(std::is_base_of_v<ComponentBase, T>)
+        [[nodiscard]] bool HasComponent() const
+        {
+            return _components.contains(GetComponentId<T>());
         }
         
     private:
-        std::vector<std::unique_ptr<ComponentBase>> _components;
+        static ComponentId IncrementComponentId();
+
+        template <typename T>
+        requires(std::is_base_of_v<ComponentBase, T>)
+        [[nodiscard]] static ComponentId GetComponentId()
+        {
+            static const ComponentId componentId = IncrementComponentId();
+            
+            return componentId;
+        }
+        
+        std::unordered_map<ComponentId, std::unique_ptr<ComponentBase>> _components;
     };   
 }

@@ -1,7 +1,6 @@
 #include "PlaygroundEngine.h"
 
 #include <iostream>
-#include <ostream>
 
 #include "World.h"
 
@@ -14,7 +13,7 @@ namespace PlaygroundEngine
         _currentWorld = std::make_unique<World>();
     }
 
-    World* Engine::GetWorld()
+    World* Engine::GetWorld() const
     {
         return _currentWorld.get();
     }

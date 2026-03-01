@@ -10,8 +10,8 @@ namespace PlaygroundEngine
     {
     public:
         Engine();
-        
-        World* GetWorld();
+
+        [[nodiscard]] World* GetWorld() const;
         void Run();
         
     private:

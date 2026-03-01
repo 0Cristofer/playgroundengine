@@ -10,8 +10,6 @@ namespace PlaygroundEngine
     class World
     {
     public:
-        World();
-        
         GameObject* AddGameObject();
         void Run();
     

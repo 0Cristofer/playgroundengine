@@ -1,13 +1,20 @@
 #include "GameObject.h"
 
-#include <iostream>
+#include <ranges>
 
-void PlaygroundEngine::GameObject::Update()
+namespace PlaygroundEngine
 {
-    std::cout<<"Running GO with Components: "<< _components.size() << '\n';
-
-    for (auto& component : _components)
+    void GameObject::Update()
     {
-        component->Update();
+        for (const auto& component : _components | std::views::values)
+        {
+            component->Update();
+        }
+    }
+
+    GameObject::ComponentId GameObject::IncrementComponentId()
+    {
+        static ComponentId id = 0;
+        return id++;
     }
 }
