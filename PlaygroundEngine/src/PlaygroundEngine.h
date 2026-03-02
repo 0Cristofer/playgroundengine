@@ -2,6 +2,8 @@
 
 #include <memory>
 
+#define SPDLOG_HEADER_ONLY
+
 namespace PlaygroundEngine
 {
     class World;

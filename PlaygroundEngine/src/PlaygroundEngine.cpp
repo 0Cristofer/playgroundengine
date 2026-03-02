@@ -1,14 +1,14 @@
 #include "PlaygroundEngine.h"
 
-#include <iostream>
-
+#include "Log.h"
 #include "World.h"
 
 namespace PlaygroundEngine
 {
     Engine::Engine()
     {
-        std::cout<<"Creating engine"<< '\n';
+        Log::Init();
+        LOG_INFO("Creating engine");
         
         _currentWorld = std::make_unique<World>();
     }
@@ -20,7 +20,7 @@ namespace PlaygroundEngine
 
     void Engine::Run()
     {
-        std::cout<<"Running Engine"<< '\n';
+        LOG_INFO("Running Engine");
         _currentWorld->Run();
     }
 }

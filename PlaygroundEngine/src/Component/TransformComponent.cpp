@@ -1,8 +1,8 @@
 #include "TransformComponent.h"
 
-#include <iostream>
+#include "Log.h"
 
 void PlaygroundEngine::TransformComponent::Update()
 {
-    std::cout<<"Updating Transform with position: "<< Position << '\n';
+    LOG_TRACE("Updating Transform with position: {0}", Position);
 }
