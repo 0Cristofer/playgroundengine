@@ -1,6 +1,6 @@
-#include "PlaygroundEngine.h"
-#include "World.h"
-#include "Component/TransformComponent.h"
+#include "PlaygroundEngine/PlaygroundEngine.h"
+#include "PlaygroundEngine/World.h"
+#include "PlaygroundEngine/Component/TransformComponent.h"
 
 int main(int argc, char* argv[])
 {
